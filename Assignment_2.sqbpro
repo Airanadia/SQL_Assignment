@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="Assignment_2.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1659"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Project" custom_title="0" dock_id="3" table="4,7:mainProject"/><dock_state state="000000ff00000000fd0000000100000002000002f2000002aefc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000002f20000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000000002f20000011800ffffff000002580000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Department" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="48"/><column index="2" value="78"/><column index="3" value="109"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Employee" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="48"/><column index="2" value="109"/><column index="3" value="117"/><column index="4" value="62"/><column index="5" value="124"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Employee_Project" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="111"/><column index="2" value="98"/><column index="3" value="163"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Project" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="49"/><column index="2" value="187"/><column index="3" value="85"/><column index="4" value="85"/><column index="5" value="124"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">
+CREATE TABLE Department(
+    Num_S INTEGER PRIMARY KEY,
+    Label TEXT,
+    Manager_Name TEXT
+);
+
+CREATE TABLE Employee(
+    Num_E INTEGER PRIMARY KEY,
+    Name TEXT,
+    Position TEXT,
+    Salary REAL,
+    Department_Num_S INTEGER,
+    FOREIGN KEY (Department_Num_S) REFERENCES Department(Num_S)
+);
+
+CREATE TABLE Project(
+    Num_P INTEGER PRIMARY KEY,
+    Title TEXT,
+    Start_Date DATE,
+    End_Date DATE,
+    Department_Num_S INTEGER,
+    FOREIGN KEY (Department_Num_S) REFERENCES Department(Num_S)
+);
+
+CREATE TABLE Employee_Project(
+    Employee_Num_E INTEGER,
+    Project_Num_P INTEGER,
+    Role TEXT,
+    PRIMARY KEY (Employee_Num_E, Project_Num_P),
+    FOREIGN KEY (Employee_Num_E) REFERENCES Employee(Num_E),
+    FOREIGN KEY (Project_Num_P) REFERENCES Project(Num_P)
+);
+
+INSERT INTO Department VALUES
+(1,'IT','Alice Johnson'),
+(2,'HR','Bob Smith'),
+(3,'Marketing','Clara Bennett');
+
+INSERT INTO Employee VALUES
+(101,'John Doe','Developer',60000.00,1),
+(102,'Jane Smith','Analyst',55000.00,2),
+(103,'Mike Brown','Designer',50000.00,3),
+(104,'Sarah Johnson','Data Scientist',70000.00,1),
+(105,'Emma Wilson','HR Specialist',52000.00,2);
+
+INSERT INTO Project VALUES
+(201,'Website Redesign','2024-01-15','2024-06-30',1),
+(202,'Employee Onboarding','2024-03-01','2024-09-01',2),
+(203,'Market Research','2024-02-01','2024-07-31',3),
+(204,'IT Infrastructure Setup','2024-04-01','2024-12-31',1);
+
+INSERT INTO Employee_Project VALUES
+(101,201,'Frontend Developer'),
+(104,201,'Backend Developer'),
+(102,202,'Trainer'),
+(105,202,'Coordinator'),
+(103,203,'Research Lead'),
+(101,204,'Network Specialist');
+
+UPDATE Employee_Project
+SET Role='Full Stack Developer'
+WHERE Employee_Num_E=101
+AND Project_Num_P=201;
+
+UPDATE Employee_Project
+SET Role='Full Stack Developer'
+WHERE Employee_Num_E=101
+AND Project_Num_P=201;
+
+DELETE FROM Employee_Project
+WHERE Employee_Num_E=103;
+
+DELETE FROM Employee
+WHERE Num_E=103;
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
